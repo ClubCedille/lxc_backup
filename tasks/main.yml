@@ -1,0 +1,20 @@
+---
+- name: Install the package duply and duplicity
+  package:
+    name: "{{ item }}"
+    state: latest
+  with_items:
+    - duply
+    - duplicity
+    - gpgv2
+    - python-pip
+    - trickle
+
+- name: install boto as AWS dependency for duplicity
+  pip:
+    name: boto
+
+- include:
+    configure_backup.yml
+  with_items:
+    - "{{ LXC_MACHINES }}"
