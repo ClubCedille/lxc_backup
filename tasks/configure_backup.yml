@@ -1,0 +1,24 @@
+---
+- name: create folder
+  file:
+    path: /etc/duply/{{ item }}
+    state: directory
+    mode: 0700
+
+- name: create conf file
+  template:
+    src: conf.j2
+    dest: /etc/duply/{{ item }}/conf
+    mode: 0600
+
+- name: create exclude file
+  template:
+    src: exclude.j2
+    dest: /etc/duply/{{ item }}/exclude
+    mode: 0600
+
+- name: create cron job
+  template:
+    src: cron_duply.j2
+    dest: /etc/cron.daily/duply_{{ item }}.sh
+    mode: 0744
